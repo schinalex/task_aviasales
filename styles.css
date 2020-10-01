@@ -1,0 +1,55 @@
+.content {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+}
+
+.container {
+  display: flex;
+  flex-flow: row;
+  justify-content: center;
+}
+
+#logo {
+  border-style: solid;
+  border-width: medium;
+  border-color: blue;
+  margin: 10px;
+
+  width: 60px;
+  height: 60px;
+
+}
+
+#filter {
+  border-style: solid;
+  border-width: medium;
+  border-color: blue;
+  margin: 10px;
+
+  width: 232px;
+  height: 252px;
+
+}
+
+.tabs {
+  border-style: solid;
+  border-width: medium;
+  border-color: blue;
+  margin: 10px;
+
+  width: 502px;
+  height: 50px;
+
+}
+
+.list {
+  border-style: solid;
+  border-width: medium;
+  border-color: blue;
+  margin: 10px;
+
+  width: 502px;
+  height: 184px;
+
+}
