@@ -1,0 +1,19 @@
+{
+  "name": "task_aviasales",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/schinalex/task_aviasales.git"
+  },
+  "author": "Alex",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/schinalex/task_aviasales/issues"
+  },
+  "homepage": "https://github.com/schinalex/task_aviasales#readme"
+}
