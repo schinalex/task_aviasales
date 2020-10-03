@@ -11,11 +11,11 @@ const Filter = () => (
 )
 
 const Tabs = () => (
-  <div class="tabs"></div>
+  <div className="tabs"></div>
 )
 
 const List = () => (
-  <div class="list"></div>
+  <div className="list"></div>
 )
 
 const ListElement = () => (
@@ -24,7 +24,19 @@ const ListElement = () => (
   </li>
 )
 
-const list = document.querySelector('.list')
-ReactDOM.render(e(ListElement), list)
+const App = () => (
+  <div className="content">
+    <Logo></Logo>
+    <div className="container">
+      <Filter></Filter>
+      <div className="list-space">
+        <Tabs></Tabs>
+        <List></List>
+      </div>
+    </div>
+  </div>
+)
+
+ReactDOM.render(e(App), document.querySelector('#app'))
 
 console.log('It kinda works')
