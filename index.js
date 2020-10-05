@@ -15,18 +15,22 @@ const Tabs = () => (
 )
 
 const List = (props) => (
-  <div className="list">{JSON.stringify(props.tickets.map(ticket => ticket.price))}</div>
+  <div className="list">{JSON.stringify(props.tickets.map(ticket => ticket.price))}
+    <ul>
+      {props.tickets.map((ticket, i) => <ListItem ticket={ticket} key={i}></ListItem>)}
+    </ul>
+  </div>
 )
 
-const ListElement = (props) => (
+const ListItem = (props) => (
   <li>
-    Ticket!
+    {JSON.stringify(props.ticket)}
   </li>
 )
 
 const App = () => {
   const [allTickets, setTickets] = React.useState([1, 2, 3])
-  React.useEffect(() => getTickets().then(setTickets), [])
+  React.useEffect(() => { getTickets().then(setTickets) }, [])
   let tickets = allTickets
   tickets = tickets.filter(ticket => ticket.price > 50000)
   return (
