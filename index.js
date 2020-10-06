@@ -15,32 +15,67 @@ const Tabs = () => (
 )
 
 const List = (props) => (
-  <div className="list">{JSON.stringify(props.tickets.map(ticket => ticket.price))}
-    <ul>
-      {props.tickets.map((ticket, i) => <ListItem ticket={ticket} key={i}></ListItem>)}
-    </ul>
+  <ul className="list">
+    {props.tickets.filter((ticket, i) => i < 10).map((ticket, i) => <ListItem ticket={ticket} key={i}/>)}
+  </ul>
+)
+
+const stops = ['БЕЗ ПЕРЕСАДОК', '1 ПЕРЕСАДКА', 'ПЕРЕСАДКИ']
+
+const addTime = (date, duration) => {
+  const date1 = new Date(date)
+  const date2 = new Date(date1.getTime() + duration * 60 * 1000)
+  return `${date2.getHours()}:${date2.getMinutes()}`
+}
+
+const ListItem = (props) => (
+  <div className="list-item">
+    <li>
+      <div className="row"><span className="price">{props.ticket.price} Р</span> <span>Airlines Logo</span></div>
+      {props.ticket.segments.map((segment, i) => (
+        <div className="row" key={i}>
+          <div className="column">
+            <div className="upper-text">
+              {segment.origin} - {segment.destination}
+            </div>
+            <div>
+              {segment.date.slice(11, 16)} - {addTime(segment.date, segment.duration)}
+            </div>
+          </div>
+          <div className="column">
+            <div className="upper-text">
+              В ПУТИ
+            </div>
+            <div>
+              {Math.floor(segment.duration / 60)}ч {segment.duration % 60}м
+            </div>
+          </div>
+          <div className="column">
+            <div className="upper-text">
+              {segment.stops.length > 1 ? `${segment.stops.length} ${stops[2]}`: stops[segment.stops.length]}
+            </div>
+            <div>
+              {segment.stops.join(', ')}
+            </div>
+          </div>
+        </div>
+      ))}
+    </li>
   </div>
 )
 
-const ListItem = (props) => (
-  <li>
-    {JSON.stringify(props.ticket)}
-  </li>
-)
-
 const App = () => {
-  const [allTickets, setTickets] = React.useState([1, 2, 3])
+  const [allTickets, setTickets] = React.useState([])
   React.useEffect(() => { getTickets().then(setTickets) }, [])
-  let tickets = allTickets
-  tickets = tickets.filter(ticket => ticket.price > 50000)
+  const tickets = allTickets || []
   return (
     <div className="content">
-      <Logo></Logo>
+      <Logo/>
       <div className="container">
-        <Filter></Filter>
+        <Filter/>
         <div className="list-space">
-          <Tabs></Tabs>
-          <List tickets={tickets}></List>
+          <Tabs/>
+          {tickets.length > 0 ? <List tickets={tickets}/> : 'Loading...'}
         </div>
       </div>
     </div>
