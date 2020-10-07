@@ -20,6 +20,14 @@ const List = (props) => (
   </ul>
 )
 
+const sortByPrice = tickets => tickets.slice().sort((a, b) => a.price - b.price)
+const sortByDuration = tickets => tickets.slice().sort((ticket1, ticket2) => {
+  const time1 = ticket1.segments.reduce((totalTime, segment) => totalTime + segment.duration, 0)
+  const time2 = ticket2.segments.reduce((totalTime, segment) => totalTime + segment.duration, 0)
+  return time1 - time2
+})
+const sort = (type, tickets) => ({ price: sortByPrice, duration: sortByDuration })[type](tickets)
+
 const stops = ['БЕЗ ПЕРЕСАДОК', '1 ПЕРЕСАДКА', 'ПЕРЕСАДКИ']
 
 const addTime = (date, duration) => {
