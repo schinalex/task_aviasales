@@ -57,7 +57,7 @@ const addTime = (date, duration) => {
 const ListItem = (props) => (
   <div className="list-item">
     <li>
-      <div className="row">
+      <div className="row top">
         <div className="price">{props.ticket.price} Р</div>
         <img id="airlines" src="images/airlines.png" alt="airlines logo"/>
       </div>
@@ -67,7 +67,7 @@ const ListItem = (props) => (
             <div className="upper-text">
               {segment.origin} - {segment.destination}
             </div>
-            <div>
+            <div className="lower-text">
               {segment.date.slice(11, 16)} - {addTime(segment.date, segment.duration)}
             </div>
           </div>
@@ -75,7 +75,7 @@ const ListItem = (props) => (
             <div className="upper-text">
               В ПУТИ
             </div>
-            <div>
+            <div className="lower-text">
               {Math.floor(segment.duration / 60)}ч {segment.duration % 60}м
             </div>
           </div>
@@ -83,7 +83,7 @@ const ListItem = (props) => (
             <div className="upper-text">
               {segment.stops.length > 1 ? `${segment.stops.length} ${stops[2]}`: stops[segment.stops.length]}
             </div>
-            <div>
+            <div className="lower-text">
               {segment.stops.join(', ')}
             </div>
           </div>
