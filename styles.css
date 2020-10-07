@@ -28,19 +28,69 @@ body {
   border-radius: 5px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 3px 8px;
   margin: 10px;
-  width: 232px;
+  width: 292px;
   height: 252px;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: 0px;
+  padding: 30px 0px 30px 0px;
+}
+
+.filter-header {
+  margin: 17px 10px 10px 10px;
+  padding: 0px 30px 0px 30px;
+  font-size: 15px;
+}
+
+.checkbox {
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  cursor: pointer;
+  padding: 0px 30px 0px 30px;
+}
+
+.checkbox:hover {
+  background-color: #f1fcff;
+}
+
+.checkbox-input{
+  appearance: none;
+  outline: none;
+  border: 1px solid #9abbce;
+  box-sizing: border-box;
+  border-radius: 2px;
+  width: 20px;
+  height: 20px;
+  margin: 10px;
+  cursor: pointer;
+}
+
+.checkbox label {
+  cursor: pointer;
+}
+
+.checkbox-input:checked {
+  border: 1px solid #2196f3;
+}
+
+.checkbox-input:checked:after {
+  content: '\2714';
+  position: relative;
+	top: -1px;
+	left: 4px;
+	color: #2196f3;
 }
 
 .tabs {
   background-color: #ffffff;
   border-radius: 5px;
   margin: 10px;
-
-  width: 502px;
+  width: 522px;
   height: 50px;
-
 }
+
 .tab {
   background-color: #ffffff;
   border: none;
@@ -54,13 +104,16 @@ body {
   letter-spacing: 0.5px;
   text-align: center;
 }
+
 .active {
   background-color: #2196f3;
   color: #ffffff;
 }
+
 .tab.left {
   border-radius: 5px 0px 0px 5px;
 }
+
 .tab.right {
   border-radius: 0px 5px 5px 0px;
 }

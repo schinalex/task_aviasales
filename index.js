@@ -13,15 +13,15 @@ const changeFilters = (setFilters, filter) => setFilters(filters => filters.incl
 
 const Filter = (props) => (
   <div id="filter">
-    <div>КОЛИЧИСТВО ПЕРЕСАДОК</div>
-    <div>
-      <input type="checkbox" name="Все" checked={!props.filters.length} onChange={() => props.setFilters([])}/>
+    <div className="filter-header">КОЛИЧИСТВО ПЕРЕСАДОК</div>
+    <div className="checkbox" onClick={() => props.setFilters([])}>
+      <input className="checkbox-input" type="checkbox" name="Все" checked={!props.filters.length} onChange={() => {}}/>
       <label>Все</label>
     </div>
     {
       ['Без пересадок', '1 Пересадка', '2 Пересадки', '3 Пересадки'].map((option, i) =>
-        <div key={i}>
-          <input type="checkbox" name={option} checked={props.filters.includes(i)} onChange={() => changeFilters(props.setFilters, i)} />
+        <div className="checkbox" key={i} onClick={() => changeFilters(props.setFilters, i)}>
+          <input className="checkbox-input" type="checkbox" name={option} checked={props.filters.includes(i)} onChange={() => {}} />
           <label>{option}</label>
         </div>
       )
@@ -32,7 +32,7 @@ const Filter = (props) => (
 const Tabs = (props) => (
   <div className="tabs">
     <button type="button" className={`tab left ${props.sortBy === 'price' ? 'active' : ''}`} onClick={() => props.setSort('price')}>
-      САМЫЙ ДУШЕВЫЙ
+      САМЫЙ ДЕШЕВЫЙ
     </button>
     <button type="button" className={`tab right ${props.sortBy === 'duration' ? 'active' : ''}`} onClick={() => props.setSort('duration')}>
       САМЫЙ БЫСТРЫЙ
