@@ -29,8 +29,15 @@ const Filter = (props) => (
   </div>
 )
 
-const Tabs = () => (
-  <div className="tabs"></div>
+const Tabs = (props) => (
+  <div className="tabs">
+    <button type="button" className={`tab left ${props.sortBy === 'price' ? 'active' : ''}`} onClick={() => props.setSort('price')}>
+      САМЫЙ ДУШЕВЫЙ
+    </button>
+    <button type="button" className={`tab right ${props.sortBy === 'duration' ? 'active' : ''}`} onClick={() => props.setSort('duration')}>
+      САМЫЙ БЫСТРЫЙ
+    </button>
+  </div>
 )
 
 const List = (props) => (
@@ -38,14 +45,6 @@ const List = (props) => (
     {props.tickets.filter((ticket, i) => i < 10).map((ticket, i) => <ListItem ticket={ticket} key={i}/>)}
   </ul>
 )
-
-const sortByPrice = tickets => tickets.slice().sort((a, b) => a.price - b.price)
-const sortByDuration = tickets => tickets.slice().sort((ticket1, ticket2) => {
-  const time1 = ticket1.segments.reduce((totalTime, segment) => totalTime + segment.duration, 0)
-  const time2 = ticket2.segments.reduce((totalTime, segment) => totalTime + segment.duration, 0)
-  return time1 - time2
-})
-const sort = (type, tickets) => ({ price: sortByPrice, duration: sortByDuration })[type](tickets)
 
 const stops = ['БЕЗ ПЕРЕСАДОК', '1 ПЕРЕСАДКА', 'ПЕРЕСАДКИ']
 
@@ -91,29 +90,6 @@ const ListItem = (props) => (
   </div>
 )
 
-const filter = (ns, tickets) => !ns.length ? tickets : tickets.filter(ticket =>
-  ticket.segments.every(segment => ns.includes(segment.stops.length))
-)
-
-const App = () => {
-  const [allTickets, setTickets] = React.useState([])
-  React.useEffect(() => { getTickets().then(setTickets) }, [])
-  const [filters, setFilters] = React.useState([])
-  const tickets = filter(filters, allTickets || [])
-  return (
-    <div className="content">
-      <Logo/>
-      <div className="container">
-        <Filter filters={filters} setFilters={setFilters}/>
-        <div className="list-space">
-          <Tabs/>
-          {tickets.length ? <List tickets={tickets}/> : 'Loading...'}
-        </div>
-      </div>
-    </div>
-  )
-}
-
 const get = url => new Promise((resolve, reject) => {
   const http = new XMLHttpRequest()
   http.open('GET', url)
@@ -128,7 +104,6 @@ const get = url => new Promise((resolve, reject) => {
     }
   }
 })
-
 const getTickets = () => {
   const searchUrl = 'https://front-test.beta.aviasales.ru/tickets'
   const keyUrl = 'https://front-test.beta.aviasales.ru/search'
@@ -140,6 +115,42 @@ const getTickets = () => {
     .then(JSON.parse)
     .then(response => response.tickets)
     .catch((request) => console.error(`Status: ${request.status}\n${request.response}`))
+}
+
+const sortByPrice = tickets => tickets.slice().sort((a, b) => a.price - b.price)
+const sortByDuration = tickets => tickets.slice().sort((ticket1, ticket2) => {
+  const time1 = ticket1.segments.reduce((totalTime, segment) => totalTime + segment.duration, 0)
+  const time2 = ticket2.segments.reduce((totalTime, segment) => totalTime + segment.duration, 0)
+  return time1 - time2
+})
+const sort = (type, tickets) => ({ price: sortByPrice, duration: sortByDuration })[type](tickets)
+
+const filter = (ns, tickets) => !ns.length ? tickets : tickets.filter(ticket =>
+  ticket.segments.every(segment => ns.includes(segment.stops.length))
+)
+
+const App = () => {
+  const [allTickets, setTickets] = React.useState([])
+  React.useEffect(() => { getTickets().then(setTickets) }, [])
+  const [filters, setFilters] = React.useState([])
+  const [sortBy, setSort] = React.useState('price')
+  const tickets = sort(sortBy, filter(filters, allTickets || []))
+  return (
+    <div className="content">
+      <Logo/>
+      <div className="container">
+        <Filter filters={filters} setFilters={setFilters}/>
+        <div className="list-space">
+          <Tabs sortBy={sortBy} setSort= {setSort}/>
+          {
+            tickets.length
+              ? <List tickets={tickets}/>
+              : <div style={{margin: '10px'}}>Loading...</div>
+          }
+        </div>
+      </div>
+    </div>
+  )
 }
 
 ReactDOM.render(e(App), document.querySelector('#app'))
