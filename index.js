@@ -20,6 +20,10 @@ const List = (props) => (
   </ul>
 )
 
+const filter = (ns, tickets) => !ns.length ? tickets : tickets.filter(ticket =>
+  ticket.segments.every(segment => ns.includes(segment.stops.length))
+)
+
 const sortByPrice = tickets => tickets.slice().sort((a, b) => a.price - b.price)
 const sortByDuration = tickets => tickets.slice().sort((ticket1, ticket2) => {
   const time1 = ticket1.segments.reduce((totalTime, segment) => totalTime + segment.duration, 0)
