@@ -6,8 +6,27 @@ const Logo = () => (
   <div id="logo"></div>
 )
 
-const Filter = () => (
-  <div id="filter">Filter</div>
+const changeFilters = (setFilters, filter) => setFilters(filters => filters.includes(filter)
+  ? filters.filter(element => element !== filter)
+  : filters.concat(filter)
+)
+
+const Filter = (props) => (
+  <div id="filter">
+    <div>КОЛИЧИСТВО ПЕРЕСАДОК</div>
+    <div>
+      <input type="checkbox" name="Все" checked={!props.filters.length} onChange={() => props.setFilters([])}/>
+      <label>Все</label>
+    </div>
+    {
+      ['Без пересадок', '1 Пересадка', '2 Пересадки', '3 Пересадки'].map((option, i) =>
+        <div key={i}>
+          <input type="checkbox" name={option} checked={props.filters.includes(i)} onChange={() => changeFilters(props.setFilters, i)} />
+          <label>{option}</label>
+        </div>
+      )
+    }
+  </div>
 )
 
 const Tabs = () => (
@@ -18,10 +37,6 @@ const List = (props) => (
   <ul className="list">
     {props.tickets.filter((ticket, i) => i < 10).map((ticket, i) => <ListItem ticket={ticket} key={i}/>)}
   </ul>
-)
-
-const filter = (ns, tickets) => !ns.length ? tickets : tickets.filter(ticket =>
-  ticket.segments.every(segment => ns.includes(segment.stops.length))
 )
 
 const sortByPrice = tickets => tickets.slice().sort((a, b) => a.price - b.price)
@@ -76,18 +91,23 @@ const ListItem = (props) => (
   </div>
 )
 
+const filter = (ns, tickets) => !ns.length ? tickets : tickets.filter(ticket =>
+  ticket.segments.every(segment => ns.includes(segment.stops.length))
+)
+
 const App = () => {
   const [allTickets, setTickets] = React.useState([])
   React.useEffect(() => { getTickets().then(setTickets) }, [])
-  const tickets = allTickets || []
+  const [filters, setFilters] = React.useState([])
+  const tickets = filter(filters, allTickets || [])
   return (
     <div className="content">
       <Logo/>
       <div className="container">
-        <Filter/>
+        <Filter filters={filters} setFilters={setFilters}/>
         <div className="list-space">
           <Tabs/>
-          {tickets.length > 0 ? <List tickets={tickets}/> : 'Loading...'}
+          {tickets.length ? <List tickets={tickets}/> : 'Loading...'}
         </div>
       </div>
     </div>
