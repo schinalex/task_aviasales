@@ -3,7 +3,7 @@
 const e = React.createElement
 
 const Logo = () => (
-  <div id="logo"></div>
+  <img id="logo" src="images/logo.png" alt="logo"/>
 )
 
 const changeFilters = (setFilters, filter) => setFilters(filters => filters.includes(filter)
@@ -57,7 +57,10 @@ const addTime = (date, duration) => {
 const ListItem = (props) => (
   <div className="list-item">
     <li>
-      <div className="row"><span className="price">{props.ticket.price} Р</span> <span>Airlines Logo</span></div>
+      <div className="row">
+        <div className="price">{props.ticket.price} Р</div>
+        <img id="airlines" src="images/airlines.png" alt="airlines logo"/>
+      </div>
       {props.ticket.segments.map((segment, i) => (
         <div className="row" key={i}>
           <div className="column">
